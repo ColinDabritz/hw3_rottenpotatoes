@@ -19,64 +19,54 @@ Background: movies have been added to database
   | Raiders of the Lost Ark | PG     | 12-Jun-1981  |
   | Chicken Run             | G      | 21-Jun-2000  |
 
-  And  I am on the RottenPotatoes home page
+  And I am on the RottenPotatoes home page
+  And I uncheck all ratings
   
 Scenario: restrict to movies with 'PG' or 'R' ratings
-  When I uncheck "ratings_G"
-  Then I check "ratings_PG"
-  Then I check "ratings_R"
-  Then I uncheck "ratings_PG-13"
-  Then I uncheck "ratings_NC-17"
+  When I check the following ratings: PG, R
   Then I press "Refresh"
-  Then the "ratings_G" checkbox should not be checked
-  Then the "ratings_PG" checkbox should be checked
-  Then the "ratings_R" checkbox should be checked
-  Then the "ratings_PG-13" checkbox should not be checked
-  Then the "ratings_NC-17" checkbox should not be checked
   Then I should not see "Aladdin"
-  Then I should not see "Chocolat"
-  Then I should see "The Incredibles"
-  Then I should see "The Terminator"
-  Then I should see "Amelie"
+   And I should not see "Chocolat"
+   And I should see "The Incredibles"
+   And I should see "The Terminator"
+   And I should see "Amelie"
 
-Scenario: no ratings selected
-  When I uncheck "ratings_G"
-  Then I check "ratings_PG"
-  Then I check "ratings_R"
-  Then I uncheck "ratings_PG-13"
-  Then I uncheck "ratings_NC-17"
-  Then I press "Refresh"
-  When I uncheck "ratings_G"
-  Then I uncheck "ratings_PG"
-  Then I uncheck "ratings_R"
-  Then I uncheck "ratings_PG-13"
-  Then I uncheck "ratings_NC-17"
-  Then I press "Refresh"
+# TODO: Is each scenario a session?
+Scenario: no ratings uses defaults
+  When I am on the RottenPotatoes home page
+  Then the "G" checkbox should be checked
+   And the "PG" checkbox should be checked
+   And the "PG-13" checkbox should be checked
+   And the "R" checkbox should be checked
+   And the "NC-17" checkbox should be checked
+  Then I should see the following in order: "Aladdin, The Terminator, When Harry Met Sally, The Help, Chocolat, Amelie, 2001: A Space Odyssey, The Incredibles, Raiders of the Lost Ark, Chicken Run"
+
+Scenario: no ratings selected uses previous ratings
+  When I check the following ratings: PG, R
+   And I press "Refresh"
+  Then I uncheck the following ratings: PG, R
+   And I press "Refresh"
   Then the "ratings_G" checkbox should not be checked
-  Then the "ratings_PG" checkbox should be checked
-  Then the "ratings_R" checkbox should be checked
-  Then the "ratings_PG-13" checkbox should not be checked
-  Then the "ratings_NC-17" checkbox should not be checked
+   And the "ratings_PG" checkbox should be checked
+   And the "ratings_R" checkbox should be checked
+   And the "ratings_PG-13" checkbox should not be checked
+   And the "ratings_NC-17" checkbox should not be checked
   Then I should not see "Aladdin"
-  Then I should not see "Chocolat"
-  Then I should see "The Incredibles"
-  Then I should see "The Terminator"
-  Then I should see "Amelie"
+   And I should not see "Chocolat"
+   And I should see "The Incredibles"
+   And I should see "The Terminator"
+   And I should see "Amelie"
 
 Scenario: all ratings selected
-  When I check "ratings_G"
-  Then I check "ratings_PG"
-  Then I check "ratings_R"
-  Then I check "ratings_PG-13"
-  Then I check "ratings_NC-17"
+  When I check all ratings
   Then I press "Refresh"
   Then the "ratings_G" checkbox should be checked
-  Then the "ratings_PG" checkbox should be checked
-  Then the "ratings_R" checkbox should be checked
-  Then the "ratings_PG-13" checkbox should be checked
+   And the "ratings_PG" checkbox should be checked
+   And the "ratings_R" checkbox should be checked
+   And the "ratings_PG-13" checkbox should be checked
   Then the "ratings_NC-17" checkbox should be checked
-  Then I should see "Aladdin"
-  Then I should see "Chocolat"
-  Then I should see "The Incredibles"
-  Then I should see "The Terminator"
-  Then I should see "Amelie"
+   And I should see "Aladdin"
+   And I should see "Chocolat"
+   And I should see "The Incredibles"
+   And I should see "The Terminator"
+   And I should see "Amelie"
