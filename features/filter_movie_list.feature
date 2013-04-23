@@ -22,14 +22,61 @@ Background: movies have been added to database
   And  I am on the RottenPotatoes home page
   
 Scenario: restrict to movies with 'PG' or 'R' ratings
-  # enter step(s) to check the 'PG' and 'R' checkboxes
-  # enter step(s) to uncheck all other checkboxes
-  # enter step to "submit" the search form on the homepage
-  # enter step(s) to ensure that PG and R movies are visible
-  # enter step(s) to ensure that other movies are not visible
+  When I uncheck "ratings_G"
+  Then I check "ratings_PG"
+  Then I check "ratings_R"
+  Then I uncheck "ratings_PG-13"
+  Then I uncheck "ratings_NC-17"
+  Then I press "Refresh"
+  Then the "ratings_G" checkbox should not be checked
+  Then the "ratings_PG" checkbox should be checked
+  Then the "ratings_R" checkbox should be checked
+  Then the "ratings_PG-13" checkbox should not be checked
+  Then the "ratings_NC-17" checkbox should not be checked
+  Then I should not see "Aladdin"
+  Then I should not see "Chocolat"
+  Then I should see "The Incredibles"
+  Then I should see "The Terminator"
+  Then I should see "Amelie"
 
 Scenario: no ratings selected
-  # see assignment
+  When I uncheck "ratings_G"
+  Then I check "ratings_PG"
+  Then I check "ratings_R"
+  Then I uncheck "ratings_PG-13"
+  Then I uncheck "ratings_NC-17"
+  Then I press "Refresh"
+  When I uncheck "ratings_G"
+  Then I uncheck "ratings_PG"
+  Then I uncheck "ratings_R"
+  Then I uncheck "ratings_PG-13"
+  Then I uncheck "ratings_NC-17"
+  Then I press "Refresh"
+  Then the "ratings_G" checkbox should not be checked
+  Then the "ratings_PG" checkbox should be checked
+  Then the "ratings_R" checkbox should be checked
+  Then the "ratings_PG-13" checkbox should not be checked
+  Then the "ratings_NC-17" checkbox should not be checked
+  Then I should not see "Aladdin"
+  Then I should not see "Chocolat"
+  Then I should see "The Incredibles"
+  Then I should see "The Terminator"
+  Then I should see "Amelie"
 
 Scenario: all ratings selected
-  # see assignment
+  When I check "ratings_G"
+  Then I check "ratings_PG"
+  Then I check "ratings_R"
+  Then I check "ratings_PG-13"
+  Then I check "ratings_NC-17"
+  Then I press "Refresh"
+  Then the "ratings_G" checkbox should be checked
+  Then the "ratings_PG" checkbox should be checked
+  Then the "ratings_R" checkbox should be checked
+  Then the "ratings_PG-13" checkbox should be checked
+  Then the "ratings_NC-17" checkbox should be checked
+  Then I should see "Aladdin"
+  Then I should see "Chocolat"
+  Then I should see "The Incredibles"
+  Then I should see "The Terminator"
+  Then I should see "Amelie"
